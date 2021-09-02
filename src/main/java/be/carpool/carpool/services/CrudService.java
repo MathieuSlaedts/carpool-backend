@@ -3,10 +3,11 @@ package be.carpool.carpool.services;
 import be.carpool.carpool.exceptions.BadRequestException;
 import be.carpool.carpool.exceptions.ForeignKeyConstraintViolationException;
 
+import java.util.List;
 import java.util.Set;
 
 public interface CrudService<FORM, DTO, ID> {
-    Set<DTO> findAll();
+    List<DTO> findAll();
     DTO findOne(ID id) throws BadRequestException;
     DTO save(FORM form) throws BadRequestException;
     DTO update(FORM form, ID id) throws BadRequestException;

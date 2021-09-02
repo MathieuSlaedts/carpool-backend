@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -18,5 +19,5 @@ public class LevelForm {
     @NotBlank @Length(min = 3, max = 50)
     String name;
     String description;
-    Set<Long> userIds;
+    List<Long> userIds;
 }

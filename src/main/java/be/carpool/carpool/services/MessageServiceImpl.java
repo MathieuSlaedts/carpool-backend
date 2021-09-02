@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,11 +64,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Set<MessageDto> findAll() {
+    public List<MessageDto> findAll() {
         return messageRepository.findAll()
                 .stream()
                 .map(m -> messageMapper.entityToDto(m))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -142,7 +143,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Transactional
-    public Set<MessageDto> findByRide(Long id) throws ElementNotFoundException {
+    public List<MessageDto> findByRide(Long id) throws ElementNotFoundException {
         if(id == null)
             throw new IllegalArgumentException();
 
@@ -152,6 +153,18 @@ public class MessageServiceImpl implements MessageService {
         return messageRepository.findByRideOrderByDatetimeAsc(ride)
                 .stream()
                 .map(m -> messageMapper.entityToDto(m))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public MessageDto findFirstByRide(Long id) throws ElementNotFoundException {
+        if(id == null)
+            throw new IllegalArgumentException();
+
+        Ride ride = rideRepository.findById(id)
+                .orElseThrow(() -> new ElementNotFoundException("Ride with id ["+id+"] not found"));
+
+        return messageMapper.entityToDto(
+                messageRepository.findFirstByRideOrderByDatetimeDesc(ride));
     }
 }

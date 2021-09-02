@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,8 +38,8 @@ public class Destination {
     String number;
 
     @OneToMany(mappedBy="destination")
-    Set<Ride> rides;
+    List<Ride> rides;
 
     @OneToMany(mappedBy="destination")
-    Set<Review> reviews;
+    List<Review> reviews;
 }

@@ -12,15 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageMapper {
 
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RideMapper rideMapper;
-    @Autowired
-    private RideRepository rideRepository;
+    @Autowired private UserMapper userMapper;
+    @Autowired private UserRepository userRepository;
+    @Autowired private RideMapper rideMapper;
+    @Autowired private RideRepository rideRepository;
 
     public Message formToEntity(MessageForm form) {
         return form == null

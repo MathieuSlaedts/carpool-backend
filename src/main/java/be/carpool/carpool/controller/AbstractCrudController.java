@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 
 public abstract class AbstractCrudController<FORM, DTO, ID> implements CrudController<FORM, DTO, ID> {
@@ -19,7 +20,7 @@ public abstract class AbstractCrudController<FORM, DTO, ID> implements CrudContr
 
     @Override
     @GetMapping
-    public ResponseEntity<Set<DTO>> findAll() {
+    public ResponseEntity<List<DTO>> findAll() {
         System.out.println(service.getClass());
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)

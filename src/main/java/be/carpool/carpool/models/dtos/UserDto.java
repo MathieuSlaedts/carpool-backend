@@ -28,9 +28,10 @@ public class UserDto {
     String street;
     String number;
     LevelSimplifiedDto level;
-    Set<ReviewSimplifiedDto> reviews;
-    Set<RideSimplifiedDto> ridesAsConductor;
-    Set<RideSimplifiedDto> ridesAsPassenger;
-    Set<MessageSimplifiedDto> messages;
-    Set<String> roles;
+    List<ReviewSimplifiedDto> reviews;
+    List<RideSimplifiedDto> ridesAsConductor;
+    List<RideSimplifiedDto> ridesAsPassenger;
+    List<MessageSimplifiedDto> messages;
+    String token;
+    List<String> roles;
 }

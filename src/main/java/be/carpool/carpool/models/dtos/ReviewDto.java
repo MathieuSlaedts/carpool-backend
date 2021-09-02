@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class ReviewDto {
     Long id;
     String message;
-    int rating;
+    Double rating;
     LocalDateTime datetime;
     DestinationSimplifiedDto destination;
     UserSimplifiedDto reviewer;

@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,11 +33,11 @@ public class LevelServiceImpl implements LevelService {
     }
 
     @Override
-    public Set<LevelDto> findAll() {
+    public List<LevelDto> findAll() {
         return levelRepository.findAll()
                 .stream()
                 .map(levelMapper::entityToDto)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -81,7 +78,7 @@ public class LevelServiceImpl implements LevelService {
             level.setDescription(form.getDescription());
 
         if(form.getUserIds() != null) {
-            Set<User> users = new HashSet<>();
+            List<User> users = new ArrayList<>();;
             for (Long userId : form.getUserIds()) {
                 User user = userRepository.findById(userId)
                         .orElseThrow(() -> new ElementNotFoundException("User with id ["+userId+"] not found"));

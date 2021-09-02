@@ -23,7 +23,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -72,11 +74,11 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public Set<RideDto> findAll() {
+    public List<RideDto> findAll() {
         return rideRepository.findAll()
                 .stream()
-                .map(r -> rideMapper.entityToDto(r))
-                .collect(Collectors.toSet());
+                .map(rideMapper::entityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -157,7 +159,7 @@ public class RideServiceImpl implements RideService {
 
 
         if(form.getPassengerIds() != null) {
-            Set<User> passengers = new HashSet<>();
+            List<User> passengers = new ArrayList<>();
             for(Long passengerId : form.getPassengerIds()) {
                 passengers.add(userRepository.findById(passengerId)
                         .orElseThrow(() -> new ElementNotFoundException("User with id ["+passengerId+"] not found")));
@@ -167,7 +169,7 @@ public class RideServiceImpl implements RideService {
 
 
         if(form.getMessageIds() != null) {
-            Set<Message> messages = new HashSet<>();
+            List<Message> messages = new ArrayList<>();
             for(Long messageId : form.getMessageIds()) {
                 messages.add(messageRepository.findById(messageId)
                         .orElseThrow(() -> new ElementNotFoundException("User with id ["+messageId+"] not found")));
@@ -188,6 +190,16 @@ public class RideServiceImpl implements RideService {
         Ride ride = rideRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException("Ride with id ["+id+"] not found"));
 
+        // Passengers
+        List<User> passengers = userRepository.findAllByRidesAsPassenger(ride);
+        for (User passenger : passengers) {
+            List<Ride> passengerRides = passenger.getRidesAsPassenger();
+            passengerRides.remove(ride);
+            passenger.setRidesAsPassenger(passengerRides);
+            userRepository.save(passenger);
+        }
+
+
         try {
             rideRepository.delete(ride);
 
@@ -201,7 +213,95 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public Set<RideDto> findAllByDepartureCityAndDestinationAndDepartureDate(String departureCity, Long destinationId, LocalDate departureDate) throws ElementNotFoundException {
+    public List<RideDto> findAllByMessagesSenderId(Long id) throws ElementNotFoundException {
+        if(id == null)
+            throw new IllegalArgumentException();
+
+        if(!userRepository.existsById(id))
+            throw new ElementNotFoundException("User with id ["+id+"] not found");
+
+        return rideRepository.findAllDistinctByMessagesSenderIdOrderByDepartureDateAscDepartureTimeAsc(id)
+                .stream()
+                .map(rideMapper::entityToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RideDto> findRidesInFuture(String departureCity, Long destinationId, LocalDate departureDate) throws ElementNotFoundException {
+
+        Destination destination = destinationId == null
+                ? null
+                : destinationRepository.findById(destinationId)
+                .orElseThrow(() -> new ElementNotFoundException("Destination with id ["+destinationId+"] not found"));
+
+        return rideRepository.findAllInFuture(departureCity, destination, departureDate)
+                .stream()
+                .map(rideMapper::entityToDto)
+                .collect(Collectors.toList());
+//        return rideRepository.findAllByDepartureDateAfterOrderByDepartureDateAscDepartureTimeAsc(LocalDate.now())
+//                .stream()
+//                .map(rideMapper::entityToDto)
+//                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RideDto> findRidesInFutureByConductor(Long conductorId) throws ElementNotFoundException {
+        if(conductorId == null)
+            throw new IllegalArgumentException();
+
+        User conductor = userRepository.findById(conductorId)
+                .orElseThrow(() -> new ElementNotFoundException("User with id ["+conductorId+"] not found"));
+
+        return rideRepository.findAllByDepartureDateAfterAndConductorOrderByDepartureDateAscDepartureTimeAsc(LocalDate.now(), conductor)
+                .stream()
+                .map(rideMapper::entityToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RideDto> findRidesInFutureByPassenger(Long passengerId) throws ElementNotFoundException {
+        if(passengerId == null)
+            throw new IllegalArgumentException();
+
+        if(!userRepository.existsById(passengerId))
+            throw new ElementNotFoundException("User with id ["+passengerId+"] not found");
+
+        return rideRepository.findAllByDepartureDateAfterAndPassengersIdOrderByDepartureDateAscDepartureTimeAsc(LocalDate.now(), passengerId)
+                .stream()
+                .map(rideMapper::entityToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RideDto> findRidesInPastByConductor(Long conductorId) throws ElementNotFoundException {
+        if(conductorId == null)
+            throw new IllegalArgumentException();
+
+        User conductor = userRepository.findById(conductorId)
+                .orElseThrow(() -> new ElementNotFoundException("User with id ["+conductorId+"] not found"));
+
+        return rideRepository.findAllByDepartureDateBeforeAndConductorOrderByDepartureDateDescDepartureTimeDesc(LocalDate.now(), conductor)
+                .stream()
+                .map(rideMapper::entityToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RideDto> findRidesInPastByPassenger(Long passengerId) throws ElementNotFoundException {
+        if(passengerId == null)
+            throw new IllegalArgumentException();
+
+        if(!userRepository.existsById(passengerId))
+            throw new ElementNotFoundException("User with id ["+passengerId+"] not found");
+
+        return rideRepository.findAllByDepartureDateBeforeAndPassengersIdOrderByDepartureDateDescDepartureTimeDesc(LocalDate.now(), passengerId)
+                .stream()
+                .map(rideMapper::entityToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RideDto> findAllByDepartureCityAndDestinationAndDepartureDate(String departureCity, Long destinationId, LocalDate departureDate) throws ElementNotFoundException {
         if(departureCity == null && destinationId == null && departureDate == null)
             throw new IllegalArgumentException();
 
@@ -211,11 +311,11 @@ public class RideServiceImpl implements RideService {
         return rideRepository.findAllByDepartureCityAndDestinationAndDepartureDate(departureCity, destination, departureDate)
                 .stream()
                 .map(r -> rideMapper.entityToDto(r))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Set<RideDto> findAllByDepartureCityAndDestination(String departureCity, Long destinationId) throws ElementNotFoundException {
+    public List<RideDto> findAllByDepartureCityAndDestination(String departureCity, Long destinationId) throws ElementNotFoundException {
         if(departureCity == null && destinationId == null)
             throw new IllegalArgumentException();
 
@@ -225,22 +325,22 @@ public class RideServiceImpl implements RideService {
         return rideRepository.findAllByDepartureCityAndDestination(departureCity, destination)
                 .stream()
                 .map(r -> rideMapper.entityToDto(r))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Set<RideDto> findAllByDepartureCityAndDepartureDate(String departureCity, LocalDate departureDate) {
+    public List<RideDto> findAllByDepartureCityAndDepartureDate(String departureCity, LocalDate departureDate) {
         if(departureCity == null && departureDate == null)
             throw new IllegalArgumentException();
 
         return rideRepository.findAllByDepartureCityAndDepartureDate(departureCity, departureDate)
                 .stream()
                 .map(r -> rideMapper.entityToDto(r))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Set<RideDto> findAllByDestinationAndDepartureDate(Long destinationId, LocalDate departureDate) throws ElementNotFoundException {
+    public List<RideDto> findAllByDestinationAndDepartureDate(Long destinationId, LocalDate departureDate) throws ElementNotFoundException {
         if(destinationId == null && departureDate == null)
             throw new IllegalArgumentException();
 
@@ -250,22 +350,22 @@ public class RideServiceImpl implements RideService {
         return rideRepository.findAllByDestinationAndDepartureDate(destination, departureDate)
                 .stream()
                 .map(r -> rideMapper.entityToDto(r))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Set<RideDto> findAllByDepartureCity(String departureCity) {
+    public List<RideDto> findAllByDepartureCity(String departureCity) {
         if(departureCity == null)
             throw new IllegalArgumentException();
 
         return rideRepository.findAllByDepartureCity(departureCity)
                 .stream()
                 .map(r -> rideMapper.entityToDto(r))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Set<RideDto> findAllByDestination(Long destinationId) throws ElementNotFoundException {
+    public List<RideDto> findAllByDestination(Long destinationId) throws ElementNotFoundException {
         if(destinationId == null)
             throw new IllegalArgumentException();
 
@@ -275,17 +375,17 @@ public class RideServiceImpl implements RideService {
         return rideRepository.findAllByDestination(destination)
                 .stream()
                 .map(r -> rideMapper.entityToDto(r))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Set<RideDto> findAllByDepartureDate(LocalDate departureDate) {
+    public List<RideDto> findAllByDepartureDate(LocalDate departureDate) {
         if(departureDate == null)
             throw new IllegalArgumentException();
 
         return rideRepository.findAllByDepartureDate(departureDate)
                 .stream()
                 .map(r -> rideMapper.entityToDto(r))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }

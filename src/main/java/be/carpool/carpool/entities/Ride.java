@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -54,7 +55,7 @@ public class Ride {
     BigDecimal pricePerPassenger;
 
     @Column
-    int seatsNum;
+    Integer seatsNum;
 
     @ManyToOne
     Destination destination;
@@ -63,8 +64,8 @@ public class Ride {
     User conductor;
 
     @ManyToMany(mappedBy = "ridesAsPassenger")
-    Set<User> passengers;
+    List<User> passengers;
 
-    @OneToMany(mappedBy = "ride")
-    Set<Message> messages;
+    @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
+    List<Message> messages;
 }

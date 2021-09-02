@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class DestinationMapper {
+public class      DestinationMapper {
 
     @Autowired
     private ReviewMapper reviewMapper;
@@ -38,15 +38,15 @@ public class DestinationMapper {
                     .street(form.getStreet())
                     .number(form.getNumber())
                     .reviews(Optional.ofNullable(form.getReviewIds())
-                        .orElseGet(Collections::emptySet)
+                        .orElseGet(Collections::emptyList)
                         .stream()
                         .map(r -> reviewRepository.findById(r).orElse(null))
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList()))
                     .rides(Optional.ofNullable(form.getReviewIds())
-                        .orElseGet(Collections::emptySet)
+                        .orElseGet(Collections::emptyList)
                         .stream()
                         .map(r -> rideRepository.findById(r).orElse(null))
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList()))
                     .build();
     }
 
@@ -62,15 +62,15 @@ public class DestinationMapper {
                     .street(entity.getStreet())
                     .number(entity.getNumber())
                     .reviews(Optional.ofNullable(entity.getReviews())
-                                .orElseGet(Collections::emptySet)
+                                .orElseGet(Collections::emptyList)
                                 .stream()
                                 .map(r -> reviewMapper.entityToSimplifiedDto(r))
-                                .collect(Collectors.toSet()))
+                                .collect(Collectors.toList()))
                     .rides(Optional.ofNullable(entity.getRides())
-                            .orElseGet(Collections::emptySet)
+                            .orElseGet(Collections::emptyList)
                                 .stream()
                                 .map(r -> rideMapper.entityToSimplifiedDto(r))
-                                .collect(Collectors.toSet()))
+                                .collect(Collectors.toList()))
                     .build();
     }
 

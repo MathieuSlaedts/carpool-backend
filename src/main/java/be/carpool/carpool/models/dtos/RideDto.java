@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -35,6 +36,6 @@ public class RideDto {
     int seatsNum;
     DestinationSimplifiedDto destination;
     UserSimplifiedDto conductor;
-    Set<UserSimplifiedDto> passengers;
-    Set<MessageSimplifiedDto> messages;
+    List<UserSimplifiedDto> passengers;
+    List<MessageSimplifiedDto> messages;
 }

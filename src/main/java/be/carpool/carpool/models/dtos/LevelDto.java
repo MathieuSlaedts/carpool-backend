@@ -4,6 +4,7 @@ import be.carpool.carpool.entities.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -15,5 +16,5 @@ public class LevelDto {
     Long id;
     String name;
     String description;
-    Set<UserSimplifiedDto> users;
+    List<UserSimplifiedDto> users;
 }

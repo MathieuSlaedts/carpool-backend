@@ -51,15 +51,15 @@ public class RideMapper {
                     .destination(destinationRepository.findById(form.getDestinationId()).orElse(null))
                     .conductor(userRepository.findById(form.getConductorId()).orElse(null))
                     .passengers(Optional.ofNullable(form.getPassengerIds())
-                        .orElseGet(Collections::emptySet)
+                        .orElseGet(Collections::emptyList)
                         .stream()
                         .map(p -> userRepository.findById(p).orElse(null))
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList()))
                     .messages(Optional.ofNullable(form.getMessageIds())
-                            .orElseGet(Collections::emptySet)
+                            .orElseGet(Collections::emptyList)
                             .stream()
                             .map(m -> messageRepository.findById(m).orElse(null))
-                            .collect(Collectors.toSet()))
+                            .collect(Collectors.toList()))
                     .build();
     }
 
@@ -82,15 +82,15 @@ public class RideMapper {
                     .destination(destinationMapper.entityToSimplifiedDto(entity.getDestination()))
                     .conductor(userMapper.entityToSimplifiedDto(entity.getConductor()))
                     .passengers(Optional.ofNullable(entity.getPassengers())
-                            .orElseGet(Collections::emptySet)
+                            .orElseGet(Collections::emptyList)
                             .stream()
                             .map(p -> userMapper.entityToSimplifiedDto(p))
-                            .collect(Collectors.toSet()))
+                            .collect(Collectors.toList()))
                     .messages(Optional.ofNullable(entity.getMessages())
-                            .orElseGet(Collections::emptySet)
+                            .orElseGet(Collections::emptyList)
                             .stream()
                             .map(m -> messageMapper.entityToSimplifiedDto(m))
-                            .collect(Collectors.toSet()))
+                            .collect(Collectors.toList()))
                     .build();
     }
 

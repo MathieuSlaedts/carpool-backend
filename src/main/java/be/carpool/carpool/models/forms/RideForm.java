@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -39,11 +40,11 @@ public class RideForm {
     String departureNumber;
     @NotNull @Future @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate departureDate;
-    @NotNull @Future @DateTimeFormat(pattern = "HH:mm:ss")
+    @NotNull @DateTimeFormat(pattern = "HH:mm:ss")
     LocalTime departureTime;
     @Future @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate returnDate;
-    @Future @DateTimeFormat(pattern = "HH:mm:ss")
+    @DateTimeFormat(pattern = "HH:mm:ss")
     LocalTime returnTime;
     BigDecimal pricePerPassenger;
     Integer seatsNum;
@@ -51,6 +52,6 @@ public class RideForm {
     Long destinationId;
     @NotNull
     Long conductorId; // id of a user
-    Set<Long> passengerIds;
-    Set<Long> messageIds;
+    List<Long> passengerIds;
+    List<Long> messageIds;
 }

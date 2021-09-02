@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -104,6 +105,84 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .reviewIds(null)
                         .build()));
 
+        Destination destinationFive = destinationRepository.save(
+                destinationMapper.formToEntity(DestinationForm.builder()
+                        .id(0L)
+                        .name("Ouddorp")
+                        .country("Pays-Bas")
+                        .city("Ouddorp")
+                        .zipcode("3253")
+                        .street("Westhoofdduinpad")
+                        .number("")
+                        .rideIds(null)
+                        .reviewIds(null)
+                        .build()));
+
+        Destination destinationSix = destinationRepository.save(
+                destinationMapper.formToEntity(DestinationForm.builder()
+                        .id(0L)
+                        .name("Oostende")
+                        .country("Belgique")
+                        .city("Oostende")
+                        .zipcode("3253")
+                        .street("Koning Boudewijnpromenade")
+                        .number("214")
+                        .rideIds(null)
+                        .reviewIds(null)
+                        .build()));
+
+        Destination destinationSeven = destinationRepository.save(
+                destinationMapper.formToEntity(DestinationForm.builder()
+                        .id(0L)
+                        .name("Grevelingendam")
+                        .country("Pays-Bas")
+                        .city("Bruinisse")
+                        .zipcode("4311 NN")
+                        .street("Strandweg")
+                        .number("4")
+                        .rideIds(null)
+                        .reviewIds(null)
+                        .build()));
+
+        Destination destinationEight = destinationRepository.save(
+                destinationMapper.formToEntity(DestinationForm.builder()
+                        .id(0L)
+                        .name("Bray-Dunes")
+                        .country("France")
+                        .city("Bray-Dunes")
+                        .zipcode("59123")
+                        .street("Boulevard Georges Pompidou")
+                        .number("120")
+                        .rideIds(null)
+                        .reviewIds(null)
+                        .build()));
+
+        Destination destinationNine = destinationRepository.save(
+                destinationMapper.formToEntity(DestinationForm.builder()
+                        .id(0L)
+                        .name("La Panne")
+                        .country("Belqique")
+                        .city("De Panne")
+                        .zipcode("8660")
+                        .street("Dynastielaan")
+                        .number("20")
+                        .rideIds(null)
+                        .reviewIds(null)
+                        .build()));
+
+        Destination destinationTen = destinationRepository.save(
+                destinationMapper.formToEntity(DestinationForm.builder()
+                        .id(0L)
+                        .name("Gravelines")
+                        .country("France")
+                        .city("Gravelines")
+                        .zipcode("59820")
+                        .street("Rue de la Chapelle")
+                        .number("27")
+                        .rideIds(null)
+                        .reviewIds(null)
+                        .build()));
+
         /*
          *
          * LEVELS
@@ -113,25 +192,25 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         Level levelOne = levelRepository.save(
                 levelMapper.formToEntity(LevelForm.builder()
                         .id(0L)
-                        .name("Beginner")
+                        .name("Débutant")
                         .build()));
 
         Level levelTwo = levelRepository.save(
                 levelMapper.formToEntity(LevelForm.builder()
                         .id(0L)
-                        .name("Intermediate")
+                        .name("Intermédiaire")
                         .build()));
 
         Level levelThree = levelRepository.save(
                 levelMapper.formToEntity(LevelForm.builder()
                         .id(0L)
-                        .name("Advanced")
+                        .name("Avancé")
                         .build()));
 
         Level levelFour = levelRepository.save(
                 levelMapper.formToEntity(LevelForm.builder()
                         .id(0L)
-                        .name("Expert")
+                        .name("Professionnel")
                         .build()));
 
         /*
@@ -149,17 +228,17 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .email("john.doe@carpool.kite")
                         .phone("+32 (0)498 30 86 87")
                         .password(passwordEncoder.encode("root"))
-                        .country("Belgium")
+                        .country("Belgique")
                         .city("Ixelles")
                         .zipcode("1050")
                         .street("Rue Juliette Wystman")
-                        .number("08 B")
+                        .number("06")
                         .levelId(levelOne.getId())
                         .reviewIds(null)
                         .rideAsConductorIds(null)
                         .rideAsPassengerIds(null)
                         .messagesIds(null)
-                        .roles(Stream.of("ROLE_ADMIN", "ROLE_USER").collect(Collectors.toSet()))
+                        .roles(Stream.of("ROLE_ADMIN", "ROLE_USER").collect(Collectors.toList()))
                         .build()));
 
         User userTwo = userRepository.save(
@@ -171,7 +250,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .email("average.joe@carpool.kite")
                         .phone("+32 (0)497 29 75 66")
                         .password(passwordEncoder.encode("root"))
-                        .country("Belgium")
+                        .country("Belgique")
                         .city("Ixelles")
                         .zipcode("1050")
                         .street("Chaussée d'Ixelles")
@@ -181,7 +260,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .rideAsConductorIds(null)
                         .rideAsPassengerIds(null)
                         .messagesIds(null)
-                        .roles(Stream.of("ROLE_USER").collect(Collectors.toSet()))
+                        .roles(Stream.of("ROLE_USER").collect(Collectors.toList()))
                         .build()));
 
         User userThree = userRepository.save(
@@ -193,8 +272,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .email("max.mustermann@carpool.kite")
                         .phone("+32 (0)597 25 33 55")
                         .password(passwordEncoder.encode("root"))
-                        .country("Belgium")
-                        .city("Beuxelles")
+                        .country("Belgique")
+                        .city("Bruxelles")
                         .zipcode("1000")
                         .street("Place de Londres")
                         .number("25")
@@ -203,7 +282,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .rideAsConductorIds(null)
                         .rideAsPassengerIds(null)
                         .messagesIds(null)
-                        .roles(Stream.of("ROLE_USER").collect(Collectors.toSet()))
+                        .roles(Stream.of("ROLE_USER").collect(Collectors.toList()))
                         .build()));
 
         User userFour = userRepository.save(
@@ -214,7 +293,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .username("juandelacruz")
                         .email("juan.delacruz@carpool.kite")
                         .phone("+32 (0)597 25 33 55")
-                        .country("Belgium")
+                        .country("Belgique")
                         .city("Schaerbeek")
                         .zipcode("1030")
                         .street("Chaussée d'Haecht")
@@ -225,7 +304,51 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .rideAsPassengerIds(null)
                         .messagesIds(null)
                         .password(passwordEncoder.encode("root"))
-                        .roles(Stream.of("ROLE_USER").collect(Collectors.toSet()))
+                        .roles(Stream.of("ROLE_USER").collect(Collectors.toList()))
+                        .build()));
+
+        User userFive = userRepository.save(
+                userMapper.formToEntity(UserForm.builder()
+                        .id(0L)
+                        .firstname("Jean")
+                        .lastname("Dupont")
+                        .username("jeandupont")
+                        .email("jean.dupont@carpool.kite")
+                        .phone("+32 (0)597 25 33 55")
+                        .country("Belgique")
+                        .city("Namur")
+                        .zipcode("5000")
+                        .street("Rue des Tanneries")
+                        .number("13")
+                        .levelId(levelOne.getId())
+                        .reviewIds(null)
+                        .rideAsConductorIds(null)
+                        .rideAsPassengerIds(null)
+                        .messagesIds(null)
+                        .password(passwordEncoder.encode("root"))
+                        .roles(Stream.of("ROLE_USER").collect(Collectors.toList()))
+                        .build()));
+
+        User userSix = userRepository.save(
+                userMapper.formToEntity(UserForm.builder()
+                        .id(0L)
+                        .firstname("Michel")
+                        .lastname("Duchmol")
+                        .username("michelduchmol")
+                        .email("michel.duchmol@carpool.kite")
+                        .phone("+32 (0)597 25 33 55")
+                        .country("Belgique")
+                        .city("Profondeville")
+                        .zipcode("5170")
+                        .street("Chaussée de Dinant")
+                        .number("31")
+                        .levelId(levelOne.getId())
+                        .reviewIds(null)
+                        .rideAsConductorIds(null)
+                        .rideAsPassengerIds(null)
+                        .messagesIds(null)
+                        .password(passwordEncoder.encode("root"))
+                        .roles(Stream.of("ROLE_USER").collect(Collectors.toList()))
                         .build()));
 
         /*
@@ -238,19 +361,19 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 rideMapper.formToEntity(RideForm.builder()
                         .id(0L)
                         .destinationId(destinationOne.getId())
-                        .departureCountry(null)
+                        .departureCountry("Belgique")
                         .departureCity("Ixelles")
-                        .departureZipcode(null)
-                        .departureStreet(null)
-                        .departureNumber(null)
-                        .departureDate(LocalDate.of(2021, 7, 1))
+                        .departureZipcode("1050")
+                        .departureStreet("Rue Juliette Wytsman")
+                        .departureNumber("6")
+                        .departureDate(LocalDate.of(2021, 6, 1))
                         .departureTime(LocalTime.of(9, 0, 0))
-                        .returnDate(LocalDate.of(2021, 7, 1))
+                        .returnDate(LocalDate.of(2021, 6, 1))
                         .returnTime(LocalTime.of(20, 0, 0))
                         .seatsNum(2)
                         .pricePerPassenger(BigDecimal.valueOf(10.4))
-                        .conductorId(userFour.getId())
-                        .passengerIds(Set.of(userOne.getId(), userThree.getId()))
+                        .conductorId(userOne.getId())
+                        .passengerIds(null)
                         .messageIds(null)
                         .build()));
 
@@ -258,19 +381,19 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 rideMapper.formToEntity(RideForm.builder()
                         .id(0L)
                         .destinationId(destinationTwo.getId())
-                        .departureCountry(null)
+                        .departureCountry("Belgique")
                         .departureCity("Namur")
-                        .departureZipcode(null)
-                        .departureStreet(null)
-                        .departureNumber(null)
+                        .departureZipcode("5000")
+                        .departureStreet("Rue des Tanneries")
+                        .departureNumber("13")
                         .departureDate(LocalDate.of(2021, 7, 3))
                         .departureTime(LocalTime.of(8, 30, 0))
-                        .returnDate(null)
-                        .returnTime(null)
+                        .returnDate(LocalDate.of(2021, 7, 3))
+                        .returnTime(LocalTime.of(22, 30, 0))
                         .seatsNum(1)
                         .pricePerPassenger(BigDecimal.valueOf(5))
-                        .conductorId(userTwo.getId())
-                        .passengerIds(Set.of(userOne.getId(), userThree.getId()))
+                        .conductorId(userFive.getId())
+                        .passengerIds(null)
                         .messageIds(null)
                         .build()));
 
@@ -278,31 +401,31 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 rideMapper.formToEntity(RideForm.builder()
                         .id(0L)
                         .destinationId(destinationOne.getId())
-                        .departureCountry(null)
+                        .departureCountry("Belgique")
                         .departureCity("Bruxelles")
-                        .departureZipcode(null)
-                        .departureStreet(null)
-                        .departureNumber(null)
+                        .departureZipcode("1000")
+                        .departureStreet("Place de Londres")
+                        .departureNumber("25")
                         .departureDate(LocalDate.of(2021, 7, 3))
-                        .departureTime(LocalTime.of(12, 0, 0))
-                        .returnDate(null)
-                        .returnTime(null)
+                        .departureTime(LocalTime.of(9, 30, 0))
+                        .returnDate(LocalDate.of(2021, 7, 3))
+                        .returnTime(LocalTime.of(21, 30, 0))
                         .seatsNum(1)
                         .pricePerPassenger(BigDecimal.valueOf(5))
                         .conductorId(userThree.getId())
-                        .passengerIds(Set.of(userOne.getId()))
+                        .passengerIds(null)
                         .messageIds(null)
                         .build()));
 
         Ride rideFour = rideRepository.save(
                 rideMapper.formToEntity(RideForm.builder()
                         .id(0L)
-                        .destinationId(destinationFour.getId())
-                        .departureCountry(null)
+                        .destinationId(destinationTen.getId())
+                        .departureCountry("Belgique")
                         .departureCity("Schaerbeek")
-                        .departureZipcode(null)
-                        .departureStreet(null)
-                        .departureNumber(null)
+                        .departureZipcode("1030")
+                        .departureStreet("Chaussée d'Haecht")
+                        .departureNumber("08 B")
                         .departureDate(LocalDate.of(2021, 7, 15))
                         .departureTime(LocalTime.of(8, 15, 0))
                         .returnDate(LocalDate.of(2021, 7, 15))
@@ -310,9 +433,148 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .seatsNum(3)
                         .pricePerPassenger(BigDecimal.valueOf(6.5))
                         .conductorId(userFour.getId())
-                        .passengerIds(Set.of(userOne.getId(), userTwo.getId()))
+                        .passengerIds(null)
                         .messageIds(null)
                         .build()));
+
+        Ride rideFive = rideRepository.save(
+                rideMapper.formToEntity(RideForm.builder()
+                        .id(0L)
+                        .destinationId(destinationNine.getId())
+                        .departureCountry("Belgique")
+                        .departureCity("Ixelles")
+                        .departureZipcode("1050")
+                        .departureStreet("Place Flagey")
+                        .departureNumber("0")
+                        .departureDate(LocalDate.of(2021, 6, 18))
+                        .departureTime(LocalTime.of(8, 15, 0))
+                        .returnDate(LocalDate.of(2021, 6, 18))
+                        .returnTime(LocalTime.of(20, 30, 0))
+                        .seatsNum(2)
+                        .pricePerPassenger(BigDecimal.valueOf(6.5))
+                        .conductorId(userTwo.getId())
+                        .passengerIds(null)
+                        .messageIds(null)
+                        .build()));
+
+        Ride rideSix = rideRepository.save(
+                rideMapper.formToEntity(RideForm.builder()
+                        .id(0L)
+                        .destinationId(destinationThree.getId())
+                        .departureCountry("Belgique")
+                        .departureCity("Ixelles")
+                        .departureZipcode("1050")
+                        .departureStreet("Rue Juliette Wytsman")
+                        .departureNumber("6")
+                        .departureDate(LocalDate.of(2021, 6, 20))
+                        .departureTime(LocalTime.of(9, 0, 0))
+                        .returnDate(LocalDate.of(2021, 6, 20))
+                        .returnTime(LocalTime.of(20, 0, 0))
+                        .seatsNum(2)
+                        .pricePerPassenger(BigDecimal.valueOf(10.4))
+                        .conductorId(userOne.getId())
+                        .passengerIds(null)
+                        .messageIds(null)
+                        .build()));
+
+        Ride rideSeven = rideRepository.save(
+                rideMapper.formToEntity(RideForm.builder()
+                        .id(0L)
+                        .destinationId(destinationTwo.getId())
+                        .departureCountry("Belgique")
+                        .departureCity("Namur")
+                        .departureZipcode("5000")
+                        .departureStreet("Rue des Tanneries")
+                        .departureNumber("13")
+                        .departureDate(LocalDate.of(2021, 6, 26))
+                        .departureTime(LocalTime.of(8, 30, 0))
+                        .returnDate(LocalDate.of(2021, 6, 26))
+                        .returnTime(LocalTime.of(22, 30, 0))
+                        .seatsNum(3)
+                        .pricePerPassenger(BigDecimal.valueOf(5))
+                        .conductorId(userFive.getId())
+                        .passengerIds(null)
+                        .messageIds(null)
+                        .build()));
+
+        Ride rideEight = rideRepository.save(
+                rideMapper.formToEntity(RideForm.builder()
+                        .id(0L)
+                        .destinationId(destinationOne.getId())
+                        .departureCountry("Belgique")
+                        .departureCity("Bruxelles")
+                        .departureZipcode("1000")
+                        .departureStreet("Place de Londres")
+                        .departureNumber("25")
+                        .departureDate(LocalDate.of(2021, 7, 2))
+                        .departureTime(LocalTime.of(9, 30, 0))
+                        .returnDate(LocalDate.of(2021, 7, 2))
+                        .returnTime(LocalTime.of(21, 30, 0))
+                        .seatsNum(1)
+                        .pricePerPassenger(BigDecimal.valueOf(5))
+                        .conductorId(userOne.getId())
+                        .passengerIds(null)
+                        .messageIds(null)
+                        .build()));
+
+        Ride rideNine = rideRepository.save(
+                rideMapper.formToEntity(RideForm.builder()
+                        .id(0L)
+                        .destinationId(destinationFour.getId())
+                        .departureCountry("Belgique")
+                        .departureCity("Schaerbeek")
+                        .departureZipcode("1030")
+                        .departureStreet("Chaussée d'Haecht")
+                        .departureNumber("08 B")
+                        .departureDate(LocalDate.of(2021, 7, 14))
+                        .departureTime(LocalTime.of(8, 15, 0))
+                        .returnDate(LocalDate.of(2021, 7, 14))
+                        .returnTime(LocalTime.of(20, 30, 0))
+                        .seatsNum(3)
+                        .pricePerPassenger(BigDecimal.valueOf(6.5))
+                        .conductorId(userTwo.getId())
+                        .passengerIds(null)
+                        .messageIds(null)
+                        .build()));
+
+        Ride rideTen = rideRepository.save(
+                rideMapper.formToEntity(RideForm.builder()
+                        .id(0L)
+                        .destinationId(destinationFour.getId())
+                        .departureCountry("Belgique")
+                        .departureCity("Ixelles")
+                        .departureZipcode("1050")
+                        .departureStreet("Place Flagey")
+                        .departureNumber("0")
+                        .departureDate(LocalDate.of(2021, 6, 13))
+                        .departureTime(LocalTime.of(8, 15, 0))
+                        .returnDate(LocalDate.of(2021, 6, 13))
+                        .returnTime(LocalTime.of(20, 30, 0))
+                        .seatsNum(2)
+                        .pricePerPassenger(BigDecimal.valueOf(6.5))
+                        .conductorId(userTwo.getId())
+                        .passengerIds(null)
+                        .messageIds(null)
+                        .build()));
+
+
+        userOne.setRidesAsPassenger(List.of(rideFour, rideSeven, rideTen));
+        userRepository.save(userOne);
+
+        userTwo.setRidesAsPassenger(List.of(rideOne, rideThree, rideFour, rideSix));
+        userRepository.save(userTwo);
+
+        userThree.setRidesAsPassenger(List.of(rideOne));
+        userRepository.save(userThree);
+
+        userFour.setRidesAsPassenger(List.of(rideTwo, rideFour));
+        userRepository.save(userFour);
+
+        userFive.setRidesAsPassenger(List.of(rideTen));
+        userRepository.save(userFive);
+
+        userSix.setRidesAsPassenger(List.of(rideSix, rideNine));
+        userRepository.save(userSix);
 
         /*
          *
@@ -326,7 +588,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .message("Hi Juan."
                             +" Thank you for your carpooling proposal."
                             +" Where should we meet ?")
-                        .datetime(LocalDateTime.of(2021, 6, 29, 9, 35, 0))
+                        .datetime(LocalDateTime.of(2021, 6, 16, 9, 35, 0))
                         .senderId(userOne.getId())
                         .rideId(rideOne.getId())
                         .build()));
@@ -335,7 +597,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 messageMapper.formToEntity(MessageForm.builder()
                         .id(0L)
                         .message("Hi. I will pick uou up at your place.")
-                        .datetime(LocalDateTime.of(2021, 6, 29, 10, 12, 0))
+                        .datetime(LocalDateTime.of(2021, 6, 16, 10, 12, 0))
                         .senderId(userFour.getId())
                         .rideId(rideOne.getId())
                         .build()));
@@ -344,7 +606,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 messageMapper.formToEntity(MessageForm.builder()
                         .id(0L)
                         .message("Hi. At what time do you think we will be back in Bxl ?")
-                        .datetime(LocalDateTime.of(2021, 7, 02, 7, 03, 0))
+                        .datetime(LocalDateTime.of(2021, 7, 15, 7, 03, 0))
                         .senderId(userThree.getId())
                         .rideId(rideTwo.getId())
                         .build()));
@@ -354,9 +616,36 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .id(0L)
                         .message("Hey, I would like to take an additional bag."
                             +"Is there enough space in the care ?")
-                        .datetime(LocalDateTime.of(2021, 6, 29, 9, 35, 0))
+                        .datetime(LocalDateTime.of(2021, 6, 17, 9, 00, 0))
                         .senderId(userTwo.getId())
                         .rideId(rideFour.getId())
+                        .build()));
+
+        Message messageFive = messageRepository.save(
+                messageMapper.formToEntity(MessageForm.builder()
+                        .id(0L)
+                        .message("Here is another message for you.")
+                        .datetime(LocalDateTime.of(2021, 6, 10, 9, 35, 0))
+                        .senderId(userTwo.getId())
+                        .rideId(rideFour.getId())
+                        .build()));
+
+        Message messageSix = messageRepository.save(
+                messageMapper.formToEntity(MessageForm.builder()
+                        .id(0L)
+                        .message("Bonjour, à quelle heure est prévu le départ.")
+                        .datetime(LocalDateTime.of(2021, 6, 10, 9, 35, 0))
+                        .senderId(userOne.getId())
+                        .rideId(rideThree.getId())
+                        .build()));
+
+        Message messageSeven = messageRepository.save(
+                messageMapper.formToEntity(MessageForm.builder()
+                        .id(0L)
+                        .message("9h30")
+                        .datetime(LocalDateTime.of(2021, 6, 10, 9, 36, 0))
+                        .senderId(userTwo.getId())
+                        .rideId(rideThree.getId())
                         .build()));
 
         /*
@@ -404,5 +693,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .destinationId(destinationFour.getId())
                         .reviewerId(userFour.getId())
                         .build()));
+
+
     }
 }

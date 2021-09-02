@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -41,9 +42,9 @@ public class UserForm {
     @Length(min = 1, max = 50)
     String number;
     Long levelId;
-    Set<Long> reviewIds;
-    Set<Long> rideAsConductorIds;
-    Set<Long> rideAsPassengerIds;
-    Set<Long> messagesIds;
-    Set<String> roles;
+    List<Long> reviewIds;
+    List<Long> rideAsConductorIds;
+    List<Long> rideAsPassengerIds;
+    List<Long> messagesIds;
+    List<String> roles;
 }

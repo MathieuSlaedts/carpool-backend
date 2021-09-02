@@ -20,7 +20,7 @@ public class ReviewForm {
     Long id;
     @NotBlank @Length(min = 1, max = 1000)
     String message;
-    @NotNull @Min(1) @Max(5)
+    @NotNull @Min(0) @Max(5)
     Integer rating;
     @NotNull @DateTimeFormat
     LocalDateTime datetime;

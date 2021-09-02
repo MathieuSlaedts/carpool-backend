@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,5 +26,5 @@ public class Level {
     String description;
 
     @OneToMany(mappedBy = "level")
-    Set<User> users;
+    List<User> users;
 }

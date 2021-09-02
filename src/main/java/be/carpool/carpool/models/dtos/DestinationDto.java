@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -21,6 +22,6 @@ public class DestinationDto {
     String zipcode;
     String street;
     String number;
-    Set<RideSimplifiedDto> rides;
-    Set<ReviewSimplifiedDto> reviews;
+    List<RideSimplifiedDto> rides;
+    List<ReviewSimplifiedDto> reviews;
 }

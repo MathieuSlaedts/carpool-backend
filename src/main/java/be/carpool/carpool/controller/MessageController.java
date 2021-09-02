@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -24,10 +25,18 @@ public class MessageController extends AbstractCrudController<MessageForm, Messa
     }
 
     @GetMapping("/by-ride/{id}")
-    public ResponseEntity<Set<MessageDto>> findByRide(@PathVariable Long id) throws BadRequestException {
+    public ResponseEntity<List<MessageDto>> findByRide(@PathVariable Long id) throws BadRequestException {
 
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .body(((MessageService)service).findByRide(id));
+    }
+
+    @GetMapping("/first-by-ride/{id}")
+    public ResponseEntity<MessageDto> findFirstByRide(@PathVariable Long id) throws BadRequestException {
+
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(((MessageService)service).findFirstByRide(id));
     }
 }

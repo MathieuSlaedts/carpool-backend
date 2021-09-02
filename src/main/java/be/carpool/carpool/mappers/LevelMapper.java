@@ -28,10 +28,10 @@ public class LevelMapper {
                     .name(form.getName())
                     .description(form.getDescription())
                     .users(Optional.ofNullable(form.getUserIds())
-                        .orElseGet(Collections::emptySet)
+                        .orElseGet(Collections::emptyList)
                         .stream()
                         .map(u -> userRepository.findById(u).orElse(null))
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList()))
                     .build();
     }
 
@@ -43,10 +43,10 @@ public class LevelMapper {
                     .name(entity.getName())
                     .description(entity.getDescription())
                     .users(Optional.ofNullable(entity.getUsers())
-                            .orElseGet(Collections::emptySet)
+                            .orElseGet(Collections::emptyList)
                             .stream()
                             .map(userMapper::entityToSimplifiedDto)
-                            .collect(Collectors.toSet()))
+                            .collect(Collectors.toList()))
                     .build();
     }
 

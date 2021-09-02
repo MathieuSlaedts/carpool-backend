@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -29,6 +30,6 @@ public class DestinationForm {
     String street;
     @NotBlank @Length(min = 1, max = 50)
     String number;
-    Set<Long> rideIds;
-    Set<Long> reviewIds;
+    List<Long> rideIds;
+    List<Long> reviewIds;
 }

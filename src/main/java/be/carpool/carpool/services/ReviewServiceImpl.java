@@ -1,5 +1,6 @@
 package be.carpool.carpool.services;
 
+import be.carpool.carpool.entities.Destination;
 import be.carpool.carpool.entities.Review;
 import be.carpool.carpool.exceptions.BadRequestException;
 import be.carpool.carpool.exceptions.ElementNotFoundException;
@@ -16,6 +17,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,11 +56,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Set<ReviewDto> findAll() {
+    public List<ReviewDto> findAll() {
         return reviewRepository.findAll()
                 .stream()
                 .map(r -> reviewMapper.entityToDto(r))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -95,7 +97,7 @@ public class ReviewServiceImpl implements ReviewService {
             review.setMessage(form.getMessage());
 
         if(form.getRating() != null)
-            review.setRating(form.getRating());
+            review.setRating(form.getRating().doubleValue());
 
         if(form.getDestinationId() != null)
             review.setDestination(destinationRepository.findById(form.getDestinationId())
@@ -128,5 +130,19 @@ public class ReviewServiceImpl implements ReviewService {
             }
         }
 
+    }
+
+    @Override
+    public List<ReviewDto> findAllByDestinationId(Long destinationId) throws ElementNotFoundException {
+        if(destinationId == null)
+            throw new IllegalArgumentException();
+
+        Destination destination = destinationRepository.findById(destinationId)
+                .orElseThrow(() -> new ElementNotFoundException("Destination with id ["+destinationId+"] not found"));
+
+        return reviewRepository.findAllByDestination(destination)
+                .stream()
+                .map(r -> reviewMapper.entityToDto(r))
+                .collect(Collectors.toList());
     }
 }

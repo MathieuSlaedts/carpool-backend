@@ -27,7 +27,7 @@ public class ReviewMapper {
                 : Review.builder()
                     .id(form.getId())
                     .message(form.getMessage())
-                    .rating(form.getRating())
+                    .rating(form.getRating().doubleValue())
                     .datetime(form.getDatetime())
                     .destination(destinationRepository.findById(form.getDestinationId()).orElse(null))
                     .reviewer(userRepository.findById(form.getReviewerId()).orElse(null))

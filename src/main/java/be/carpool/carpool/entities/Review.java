@@ -22,7 +22,7 @@ public class Review {
     String message;
 
     @Column(nullable = false)
-    int rating;
+    Double rating;
 
     @Column
     LocalDateTime datetime;

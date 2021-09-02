@@ -4,6 +4,7 @@ import be.carpool.carpool.entities.Destination;
 import be.carpool.carpool.entities.Review;
 import be.carpool.carpool.entities.Ride;
 import be.carpool.carpool.exceptions.BadRequestException;
+import be.carpool.carpool.exceptions.ElementAlreadyExistsException;
 import be.carpool.carpool.exceptions.ElementNotFoundException;
 import be.carpool.carpool.exceptions.ForeignKeyConstraintViolationException;
 import be.carpool.carpool.mappers.DestinationMapper;
@@ -18,7 +19,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,12 +68,12 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    public Set<DestinationDto> findAll() {
+    public List<DestinationDto> findAll() {
 
         return destinationRepository.findAll()
                 .stream()
                 .map(d -> destinationMapper.entityToDto(d))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -88,6 +91,9 @@ public class DestinationServiceImpl implements DestinationService {
     public DestinationDto save(DestinationForm form) throws BadRequestException {
         if( form == null)
             throw new IllegalArgumentException();
+
+        if(destinationRepository.existsByName(form.getName()))
+            throw new ElementAlreadyExistsException("Destination with name["+form.getName()+"] already exists.");
 
         Destination destination = destinationRepository.save(
                 destinationMapper.formToEntity(form));
@@ -122,7 +128,7 @@ public class DestinationServiceImpl implements DestinationService {
             destination.setNumber(form.getNumber());
 
         if(form.getRideIds() != null) {
-            Set<Ride> rides = new HashSet<>();
+            List<Ride> rides = new ArrayList<>();
             for (Long rideId : form.getRideIds()) {
                 rides.add(rideRepository.findById(rideId)
                         .orElseThrow(() -> new ElementNotFoundException("Ride with id ["+rideId+"] not found")));
@@ -131,7 +137,7 @@ public class DestinationServiceImpl implements DestinationService {
         }
 
         if(form.getReviewIds() != null) {
-            Set<Review> reviews = new HashSet<>();
+            List<Review> reviews = new ArrayList<>();
             for (Long reviewId : form.getReviewIds()) {
                 reviews.add(reviewRepository.findById(reviewId)
                     .orElseThrow(() -> new ElementNotFoundException("Ride with id ["+reviewId+"] not found")));
@@ -161,5 +167,13 @@ public class DestinationServiceImpl implements DestinationService {
                 throw e;
             }
         }
+    }
+
+    @Override
+    public Double getAvgRating(Long id) {
+        if( id == null)
+            throw new IllegalArgumentException();
+
+        return destinationRepository.getAvgRating(id);
     }
 }
